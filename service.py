@@ -3,6 +3,7 @@
 
 import xbmc
 import xbmcgui
+import xbmcaddon
 import time
 from datetime import datetime
 
@@ -32,6 +33,26 @@ def hasData(data):
         return True
 
 
+def callOnStopAddon(item_id, position):
+
+    try:
+        __settings__ = xbmcaddon.Addon(id='plugin.video.embycon')
+        on_stop_addon_enabled = __settings__.getSetting('onStopAddonEnabled') == "true"
+        addon_to_run = __settings__.getSetting('onStopAddon')
+        if on_stop_addon_enabled and addon_to_run:
+            log.debug("callOnStopAddon onStopAddon: " + str(addon_to_run))
+            param_string = ""
+            param_string += "item_id=" + str(item_id)
+            param_string += "&position=" + str(position)
+            param_string += "&token=" + str(download_utils.authenticate())
+            param_string += "&user_id=" + str(download_utils.getUserId())
+            log.debug("callOnStopAddon onStopAddon params: " + str(param_string))
+            xbmc.executebuiltin("RunAddon(" + addon_to_run + ", " + param_string + ")")
+
+    except Exception as error:
+        log.error("callOnStopAddon Error: " + str(error))
+
+
 def stopAll(played_information):
 
     if len(played_information) == 0:
@@ -45,12 +66,13 @@ def stopAll(played_information):
             log.info("item_url  : " + item_url)
             log.info("item_data : " + str(data))
             
-            current_possition = data.get("currentPossition")
+            current_position = data.get("currentPossition")
             emby_item_id = data.get("item_id")
             
             if hasData(emby_item_id):
-                log.info("Playback Stopped at: " + str(int(current_possition * 10000000)))
-                websocket_thread.playbackStopped(emby_item_id, str(int(current_possition * 10000000)))
+                log.info("Playback Stopped at: " + str(int(current_position * 10000000)))
+                websocket_thread.playbackStopped(emby_item_id, str(int(current_position * 10000000)))
+                callOnStopAddon(emby_item_id, current_position)
         
     played_information.clear()
     

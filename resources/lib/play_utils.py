@@ -52,7 +52,7 @@ def playFile(play_info):
             seekTime = reasonableTicks / 10000
             displayTime = str(timedelta(seconds=seekTime))
 
-            resumeDialog = ResumeDialog("ResumeDialog.xml", addon_path, "default", "720p")
+            resumeDialog = ResumeDialog("ResumeDialog.xml", addon_path, "default", "1080i")
             resumeDialog.setResumeTime("Resume from " + displayTime)
             resumeDialog.doModal()
             resume_result = resumeDialog.getResumeAction()

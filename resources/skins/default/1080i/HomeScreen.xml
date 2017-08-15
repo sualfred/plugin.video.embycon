@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+
+    <defaultcontrol always="true">3000</defaultcontrol>
+
+    <controls>
+
+        <control type="list" id="3000">
+            <left>0</left>
+            <top>50</top>
+            <width>200</width>
+            <height>900</height>
+            <onright>4000</onright>
+            <itemlayout width="200" height="60">
+                <control type="textbox">
+                    <top>20</top>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>99FFFFFF</textcolor>
+                    <font>font52_title</font>
+                    <height>45</height>
+                </control>
+            </itemlayout>
+            <focusedlayout width="200" height="60">
+                <control type="textbox">
+                    <top>20</top>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>FFFFFFFF</textcolor>
+                    <font>font20</font>
+                    <height>45</height>
+                </control>
+            </focusedlayout>
+        </control>
+
+
+        <control type="group" id="4000">
+            <visible>String.IsEqual(Container(3000).ListItem.Property(menu_id), menu_01)</visible>
+            <left>200</left>
+            <top>50</top>
+            <width>1500</width>
+            <height>900</height>
+            <onleft>3000</onleft>
+            <control type="grouplist" id="3001">
+                <orientation>vertical</orientation>
+                <height>100%</height>
+                <scrolltime tween="cubic" easing="out">500</scrolltime>
+                <itemgap>-160</itemgap>
+                <onup>20000</onup>
+                <ondown>20001</ondown>
+                <onleft>9000</onleft>
+                <usecontrolcoords>true</usecontrolcoords>
+                <include content="WidgetListPoster" condition="true">
+                    <param name="content_path" value="plugin://plugin.video.embycon?mode=WIDGET_CONTENT&type=recent_movies"/>
+                    <param name="widget_header" value="Recently Added"/>
+                    <param name="widget_target" value="videos"/>
+                    <param name="list_id" value="3800"/>
+                </include>
+                <include content="WidgetListPoster" condition="true">
+                    <param name="content_path" value="plugin://plugin.video.embycon?mode=WIDGET_CONTENT&type=inprogress_movies"/>
+                    <param name="widget_header" value="In Progress"/>
+                    <param name="widget_target" value="videos"/>
+                    <param name="list_id" value="3900"/>
+                </include>
+            </control>
+        </control>
+
+
+    </controls>
+
+</window>

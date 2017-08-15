@@ -25,6 +25,7 @@ from simple_logging import SimpleLogging
 from menu_functions import displaySections, showMovieAlphaList, showGenreList, showWidgets, showSearch
 from translation import i18n
 from server_sessions import showServerSessions
+from HomeScreen import HomeScreen
 
 __addon__ = xbmcaddon.Addon(id='plugin.video.embycon')
 __addondir__ = xbmc.translatePath(__addon__.getAddonInfo('profile'))
@@ -179,6 +180,10 @@ def mainEntryPoint():
 
     log.debug("===== EmbyCon FINISHED =====")
 
+def showHomeScreen():
+    homeScreen = HomeScreen("HomeScreen.xml", __addon__.getAddonInfo('path'), "default", "1080i")
+    homeScreen.doModal()
+    del homeScreen
 
 def markWatched(item_id):
     log.debug("Mark Item Watched : " + item_id)
